@@ -1,0 +1,15 @@
+body {
+  background-color: #999;
+}
+li {
+
+  list-style-type: none;
+}
+
+a{
+  text-decoration: none;
+}
+
+.nav-samping{
+  height: 99%;
+}
