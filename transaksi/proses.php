@@ -15,7 +15,7 @@ if (isset($_POST['submit'])) {
     $tgl = date('Y-m-d H:i:s');
     $idPelanggan = 1;
     
-    $sqlTransaksi =  "INSERT INTO transaksi (idTransaksi, tgl, totalSemua, idPelanggan) VALUES ('$idTransaksi', '$tgl', '$totalSemua','$idPelanggan')";
+    $sqlTransaksi =  "INSERT INTO transaksi (idTransaksi, tgl, totalSemua, idPelanggan, status) VALUES ('$idTransaksi', '$tgl', '$totalSemua','$idPelanggan', 'dikonfirmasi')";
     $queryTr = mysqli_query($conn, $sqlTransaksi);
     
     if ($queryTr) {
