@@ -25,35 +25,46 @@ if (!$result) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nota Pembelian</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome untuk ikon -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            text-align: center;
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
         }
         .container {
-            width: 300px;
-            margin: 20px auto;
-            border: 2px solid #000;
-            padding: 10px;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 30px;
+            border: 1px solid #ced4da;
+            border-radius: 8px;
+            background-color: #fff;
         }
         .header {
-            font-weight: bold;
-            border-bottom: 1px solid #000;
-            padding-bottom: 5px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .header h2 {
+            color: #007bff;
         }
         .item {
-            text-align: left;
-            margin-top: 5px;
+            margin-bottom: 15px;
         }
         .item span {
-            display: inline-block;
-            width: 50%;
+            font-weight: bold;
         }
         .total {
-            margin-top: 10px;
+            font-size: 18px;
             font-weight: bold;
+            margin-top: 20px;
+            color: #28a745;
+        }
+        .thanks {
+            text-align: center;
+            margin-top: 30px;
+            color: #6c757d;
         }
     </style>
 </head>
@@ -65,36 +76,32 @@ if (!$result) {
             <p>ID TR : <?= $idTransaksi?></p>
         </div>
         <?php
-        // Loop untuk menampilkan item-item pembelian
         $totalPembelian = 0;
         while ($row = mysqli_fetch_assoc($result)) {
-            echo "<div class='item'>";
-            echo "<span>ID Produk:</span> " . $row["idProduk"] . "<br>";
-            echo "<span>Nama Produk:</span> " . $row["namaProduk"] . "<br>";
-            echo "<span>Jumlah:</span> " . $row["jumlah"] . "<br>";
-            echo "<span>Total Harga:</span> " . $row["totalHarga"] . "<br>";
-            echo "</div>";
+            ?>
+            <div class="item">
+                <span>ID Produk:</span> <?= $row["idProduk"] ?><br>
+                <span>Nama Produk:</span> <?= $row["namaProduk"] ?><br>
+                <span>Jumlah:</span> <?= $row["jumlah"] ?><br>
+                <span>Total Harga:</span> <?= $row["totalHarga"] ?><br>
+            </div>
+            <?php
             $totalPembelian += $row["totalHarga"];
         }
         ?>
         <div class="total">
             <p>Total Pembelian: Rp. <?php echo number_format($totalPembelian, 0,',', '.' )?></p>
         </div>
-        <p>Terima kasih atas pembeliannya!</p>
-        
+        <p class="thanks">Terima kasih atas pembeliannya! <i class="far fa-smile-beam"></i></p>
     </div>
-    
-    
-    <script>
-      window.print();
-    </script>
+    <!-- Bootstrap JS (optional) -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
 
 <?php
 // Bebaskan hasil setelah digunakan
 mysqli_free_result($result);
-
 // Tutup koneksi database setelah selesai
 mysqli_close($conn);
 ?>
