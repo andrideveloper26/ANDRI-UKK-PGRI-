@@ -353,26 +353,26 @@ if (isset($_GET['ID'])) {
     }
 
     function hitungTotal() {
-      var totalSemua = 0;
-      var rows = document.querySelectorAll('#tabel-pesanan tbody tr');
-      
-      rows.forEach(function(row) {
-        var jumlah = parseInt(row.querySelector('.jumlah').value);
-        var harga = parseInt(row.querySelector('.jumlah').getAttribute('data-harga'));
-        var totalHarga = jumlah * harga;
-        totalSemua += totalHarga;
-        row.querySelector('.total').value = totalHarga.toLocaleString();
-      });
-      
-      document.getElementById('totalSemua').value = totalSemua.toLocaleString();
-    }
+  var totalSemua = 0;
+  var rows = document.querySelectorAll('#tabel-pesanan tbody tr');
+  
+  rows.forEach(function(row) {
+    var jumlah = parseInt(row.querySelector('.jumlah').value);
+    var harga = parseInt(row.querySelector('.jumlah').getAttribute('data-harga'));
+    var totalHarga = jumlah * harga;
+    totalSemua += totalHarga;
+    row.querySelector('.total').value = totalHarga.toLocaleString();
+  });
+  
+  document.getElementById('totalSemua').value = totalSemua.toLocaleString();
+}
 
-    var inputs = document.querySelectorAll('.jumlah');
-    inputs.forEach(function(input) {
-      input.addEventListener('input', hitungTotal);
-    });
+var inputs = document.querySelectorAll('.jumlah');
+inputs.forEach(function(input) {
+  input.addEventListener('input', hitungTotal);
+});
 
-    window.addEventListener('load', hitungTotal);
+window.addEventListener('load', hitungTotal);
   </script>
   
 
