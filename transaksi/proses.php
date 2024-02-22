@@ -1,5 +1,6 @@
 <?php 
 include "../conn/koneksi.php";
+date_default_timezone_set('Asia/Jakarta');
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 session_start();
@@ -10,31 +11,35 @@ function generatePenjualanId() {
 }
 
 if (isset($_POST['submit'])) {
-    $idTransaksi = generatePenjualanId();
-    $totalSemua = $_POST['totalSemua'];
+    $pelangganID = $_SESSION['pelangganID'];
+    $penjualanID = generatePenjualanId();
+    $totalHarga = $_POST['totalHarga'];
     $tgl = date('Y-m-d H:i:s');
-    $idPelanggan = 1;
+    $idUser = $_POST['idUser'];
     
-    $sqlTransaksi =  "INSERT INTO transaksi (idTransaksi, tgl, totalSemua, idPelanggan, status) VALUES ('$idTransaksi', '$tgl', '$totalSemua','$idPelanggan', 'dikonfirmasi')";
+    //var_dump($pelangganID);
+    
+    
+    $sqlTransaksi =  "INSERT INTO penjualan (penjualanID, tanggalPenjualan, totalHarga, pelangganID, idUser) VALUES ('$penjualanID', '$tgl', '$totalHarga', '$pelangganID ' , '$idUser' )";
     $queryTr = mysqli_query($conn, $sqlTransaksi);
     
     if ($queryTr) {
-        foreach ($_SESSION['cart'] as $idProduk => $jumlah) {
+        foreach ($_SESSION['cart'] as $produkID => $jumlah) {
             // Ambil informasi produk dari database
-            $sqlProduk = "SELECT * FROM produk WHERE idProduk=$idProduk";
+            $sqlProduk = "SELECT * FROM produk WHERE produkID=$produkID";
             $queryProduk = mysqli_query($conn, $sqlProduk);
             $produk = mysqli_fetch_assoc($queryProduk);
 
             $subtotal = $produk['harga'] * $jumlah;
             
-            $sqlDtr =  "INSERT INTO detailTransaksi (idTransaksi, idProduk, jumlah, totalHarga, idUser) VALUES ( '$idTransaksi', '$idProduk', '$jumlah', '$subtotal' , '1')";
+            $sqlDtr =  "INSERT INTO detailPenjualan (penjualanID, produkID, jumlahProduk, subtotal) VALUES ( '$penjualanID', '$produkID', '$jumlah', '$subtotal' )";
             
             $queryDtr = mysqli_query($conn, $sqlDtr);
         }
 
         if ($queryDtr) {
             unset($_SESSION['cart']);
-            header("location:../nota/cetak-nota.php?idTransaksi=$idTransaksi");
+            //header("location:../nota/cetak-nota.php?penjualanID=$penjualanID");
             exit(); // Penting: pastikan untuk keluar setelah mengarahkan pengguna
         } else {
             die('gagal ' .mysqli_error($conn));
