@@ -16,6 +16,7 @@ if (isset($_POST['submit'])) {
     $totalHarga = $_POST['totalHarga'];
     $tgl = date('Y-m-d H:i:s');
     $idUser = $_POST['idUser'];
+    $jumlahProduk = $_POST['jumlah'];
     
     //var_dump($pelangganID);
     
@@ -30,16 +31,18 @@ if (isset($_POST['submit'])) {
             $queryProduk = mysqli_query($conn, $sqlProduk);
             $produk = mysqli_fetch_assoc($queryProduk);
 
-            $subtotal = $produk['harga'] * $jumlah;
+            $subtotal = (int)$produk['harga'] * $jumlahProduk;
+
+
             
-            $sqlDtr =  "INSERT INTO detailPenjualan (penjualanID, produkID, jumlahProduk, subtotal) VALUES ( '$penjualanID', '$produkID', '$jumlah', '$subtotal' )";
+            $sqlDtr =  "INSERT INTO detailPenjualan (penjualanID, produkID, jumlahProduk, subtotal) VALUES ( '$penjualanID', '$produkID', '$jumlahProduk', '$subtotal' )";
             
             $queryDtr = mysqli_query($conn, $sqlDtr);
         }
 
         if ($queryDtr) {
             unset($_SESSION['cart']);
-            //header("location:../nota/cetak-nota.php?penjualanID=$penjualanID");
+            header("location:../nota/cetak-nota.php?penjualanID=$penjualanID");
             exit(); // Penting: pastikan untuk keluar setelah mengarahkan pengguna
         } else {
             die('gagal ' .mysqli_error($conn));
